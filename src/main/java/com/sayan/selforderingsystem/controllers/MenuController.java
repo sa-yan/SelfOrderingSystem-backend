@@ -42,6 +42,7 @@ public class MenuController {
     }
 
     @PostMapping("/admin")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<?> createMenuItem(
             @RequestPart("menuItem") String menuItemJson,
             @RequestPart("image") MultipartFile file) throws IOException {
