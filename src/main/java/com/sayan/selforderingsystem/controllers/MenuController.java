@@ -41,7 +41,7 @@ public class MenuController {
         return ResponseEntity.ok(menuService.getMenuItemById(id));
     }
 
-    @PostMapping("/admin")
+    @PostMapping
     public ResponseEntity<?> createMenuItem(
             @RequestPart("menuItem") String menuItemJson,
             @RequestPart("image") MultipartFile file) throws IOException {
@@ -60,7 +60,7 @@ public class MenuController {
         }
     }
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateMenuItem(@PathVariable String id, @RequestBody MenuItem requestedMenuItem){
         if(menuService.updateMenuItem(id, requestedMenuItem)!=null){
             return new ResponseEntity<>(menuService.updateMenuItem(id, requestedMenuItem), HttpStatus.OK);
@@ -69,7 +69,7 @@ public class MenuController {
         }
     }
 
-    @PatchMapping("/admin/{id}/avilability")
+    @PatchMapping("/{id}/avilability")
     public ResponseEntity<?> updateAvailability(@PathVariable String id,
                                                        @RequestParam boolean availability){
         if(menuService!=null){
@@ -79,7 +79,7 @@ public class MenuController {
         }
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMenuItem(@PathVariable String id) {
         if (menuService.getMenuItemById(id) != null) {
             menuService.deleteMenuItem(id);
