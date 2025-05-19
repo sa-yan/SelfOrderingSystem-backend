@@ -21,7 +21,7 @@ public class KitchenController {
         return ResponseEntity.ok(kitchenService.getActiveOrders());
     }
 
-    @PatchMapping("/order/{id}/prepare")
+    @PatchMapping("/order/{id}/preparing")
     public ResponseEntity<?> prepareOrder(@PathVariable String id) {
         Order order = kitchenService.startPreparingOrder(id);
         if(order != null) {
@@ -30,7 +30,7 @@ public class KitchenController {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/orders/{id}/ready")
+    @PatchMapping("/order/{id}/ready")
     public ResponseEntity<?> readyOrder1(@PathVariable String id) {
         Order order = kitchenService.readyOrder(id);
         if(order != null) {
@@ -39,7 +39,7 @@ public class KitchenController {
         return ResponseEntity.notFound().build();
     }
 
-    @PatchMapping("/orders/{id}/deliver")
+    @PatchMapping("/order/{id}/deliver")
     public ResponseEntity<?> deliverOrder(@PathVariable String id) {
         Order order = kitchenService.deliveredOrder(id);
         if(order != null) {

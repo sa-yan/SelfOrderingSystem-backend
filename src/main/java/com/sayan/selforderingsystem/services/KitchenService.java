@@ -14,8 +14,11 @@ public class KitchenService {
     private final OrderService orderService;
 
     public List<Order> getActiveOrders(){
-        return orderService.getOrdersByStatusList(Arrays.asList(OrderStatus.PLACED, OrderStatus.PREPARING));
+        return orderService.getOrdersByStatusList(
+                Arrays.asList(OrderStatus.PLACED, OrderStatus.PREPARING, OrderStatus.READY, OrderStatus.DELIVERED)
+        );
     }
+
 
     public Order startPreparingOrder(String id){
         return orderService.updateOrderStatus(id, OrderStatus.PREPARING);
