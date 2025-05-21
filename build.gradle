@@ -30,7 +30,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.33.0'
-
+    implementation("com.razorpay:razorpay-java:1.4.8")
 }
 
 tasks.named('test') {

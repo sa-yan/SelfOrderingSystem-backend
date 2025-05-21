@@ -23,4 +23,8 @@ public class Order {
     private OrderStatus orderStatus;
     private double totalAmount;
     int tableNumber;
+
+    private boolean paymentSuccessful;
+    private String razorpayPaymentId;
+
 }
