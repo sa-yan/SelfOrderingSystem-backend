@@ -31,6 +31,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.33.0'
     implementation("com.razorpay:razorpay-java:1.4.8")
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation("com.github.librepdf:openpdf:2.0.3")
 }
 
 tasks.named('test') {

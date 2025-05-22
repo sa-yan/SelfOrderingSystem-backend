@@ -24,6 +24,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final MenuItemRepository menuItemRepository;
+    private final EmailService emailService;
 
     public Order createOrder(Order order) {
         List<OrderItem> allItems = new ArrayList<>();
@@ -59,8 +60,34 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.PLACED);
         order.setOrderDate(LocalDateTime.now());
         order.setTableNumber(order.getTableNumber());
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+        return savedOrder;
     }
+
+    //Utility method
+    public String generateBill(Order order){
+        StringBuilder sb = new StringBuilder();
+        sb.append("📄 Order Bill - Order #").append(order.getOrderNumber()).append("\n");
+        sb.append("Date: ").append(order.getOrderDate()).append("\n");
+        sb.append("Table Number: ").append(order.getTableNumber()).append("\n\n");
+        sb.append("Items:\n");
+
+        for (OrderItem item : order.getItems()) {
+            sb.append("- ")
+                    .append(item.getName())
+                    .append(" x ")
+                    .append(item.getQuantity())
+                    .append(" = ₹")
+                    .append(item.getPrice() * item.getQuantity())
+                    .append("\n");
+        }
+
+        sb.append("\nTotal Amount: ₹").append(order.getTotalAmount());
+        sb.append("\n\nThank you for your order!");
+
+        return sb.toString();
+    }
+
 
 
     public Order getOrderById(String id) {

@@ -1,11 +1,18 @@
 package com.sayan.selforderingsystem.controllers;
 
 import com.razorpay.RazorpayException;
+import com.sayan.selforderingsystem.models.Order;
+import com.sayan.selforderingsystem.repositories.OrderRepository;
+import com.sayan.selforderingsystem.services.EmailService;
+import com.sayan.selforderingsystem.services.OrderService;
 import com.sayan.selforderingsystem.services.RazorPayService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -13,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class RazorPayController {
 
+    private final OrderRepository orderRepository;
+    private final EmailService emailService;
     private RazorPayService razorPayService;
 
     @PostMapping("/createOrder")
@@ -32,9 +41,19 @@ public class RazorPayController {
     @PostMapping("/confirm")
     public ResponseEntity<String> confirmPayment(@RequestParam String orderId,
                                                  @RequestParam String razorpayPaymentId) {
+        Optional<com.sayan.selforderingsystem.models.Order> orderOptional = orderRepository.findById(orderId);
+        if(orderOptional.isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Order with ID " + orderId + " not found"
+            );
+        }
+
+        emailService.senBillMail(orderId);
         razorPayService.confirmPayment(orderId, razorpayPaymentId);
-        return ResponseEntity.ok("Payment confirmed and order updated.");
+        return ResponseEntity.ok("Payment confirmed and Bill is sent to your email.");
     }
+
 
 
 }

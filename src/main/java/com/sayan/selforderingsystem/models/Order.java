@@ -27,4 +27,6 @@ public class Order {
     private boolean paymentSuccessful;
     private String razorpayPaymentId;
 
+    private String email;
+
 }
