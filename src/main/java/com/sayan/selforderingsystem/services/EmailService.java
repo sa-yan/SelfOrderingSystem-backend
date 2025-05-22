@@ -68,40 +68,7 @@ public class EmailService {
             throw new RuntimeException("Failed to send email", e);
         }
     }
-
-    private String generateHtmlBill(Order order) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<html><body>");
-        sb.append("<h2 style='color: #2c3e50;'>🧾 Your Order Bill</h2>");
-        sb.append("<p><strong>Order No:</strong> ").append(order.getOrderNumber()).append("</p>");
-        sb.append("<p><strong>Table:</strong> ").append(order.getTableNumber()).append("</p>");
-
-        sb.append("<table style='border-collapse: collapse; width: 100%;'>");
-        sb.append("<thead><tr style='background-color: #f2f2f2;'>");
-        sb.append("<th style='border: 1px solid #ddd; padding: 8px;'>Item</th>");
-        sb.append("<th style='border: 1px solid #ddd; padding: 8px;'>Qty</th>");
-        sb.append("<th style='border: 1px solid #ddd; padding: 8px;'>Price</th>");
-        sb.append("</tr></thead><tbody>");
-
-        for (OrderItem item : order.getItems()) {
-            sb.append("<tr>");
-            sb.append("<td style='border: 1px solid #ddd; padding: 8px;'>").append(item.getName()).append("</td>");
-            sb.append("<td style='border: 1px solid #ddd; padding: 8px;'>").append(item.getQuantity()).append("</td>");
-            sb.append("<td style='border: 1px solid #ddd; padding: 8px;'>₹")
-                    .append(item.getPrice() * item.getQuantity()).append("</td>");
-            sb.append("</tr>");
-        }
-
-        sb.append("</tbody></table>");
-        sb.append("<p style='margin-top: 16px; font-size: 18px;'><strong>Total: ₹")
-                .append(order.getTotalAmount()).append("</strong></p>");
-        sb.append("<p>Thank you for ordering! 🍽️</p>");
-        sb.append("</body></html>");
-
-        return sb.toString();
-    }
-
+    
     private ByteArrayOutputStream generateInvoicePdf(Order order) throws DocumentException {
         Document document = new Document(PageSize.A6); // Small receipt-style page
         ByteArrayOutputStream out = new ByteArrayOutputStream();
