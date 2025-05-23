@@ -68,7 +68,7 @@ public class EmailService {
             throw new RuntimeException("Failed to send email", e);
         }
     }
-    
+
     private ByteArrayOutputStream generateInvoicePdf(Order order) throws DocumentException {
         Document document = new Document(PageSize.A6); // Small receipt-style page
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -92,7 +92,7 @@ public class EmailService {
 
         // Date & Time
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm a");
         String date = order.getOrderDate().format(dateFormatter);
         String time = order.getOrderDate().format(timeFormatter);
         Paragraph dateTime = new Paragraph("Date: " + date + "    Time: " + time + "\n", smallFont);
