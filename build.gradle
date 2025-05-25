@@ -33,6 +33,7 @@ dependencies {
     implementation("com.razorpay:razorpay-java:1.4.8")
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation("com.github.librepdf:openpdf:2.0.3")
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
