@@ -4,13 +4,11 @@ import com.sayan.selforderingsystem.models.Order;
 import com.sayan.selforderingsystem.services.KitchenService;
 import com.sayan.selforderingsystem.services.OrderService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/kitchen")
-@Data
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class KitchenController {

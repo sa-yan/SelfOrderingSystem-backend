@@ -27,18 +27,26 @@ public class RazorPayService {
     @Autowired
     private OrderService orderService;
 
+    private RazorpayClient razorpayClient;
+
+    private RazorpayClient getClient() throws RazorpayException {
+        if (razorpayClient == null) {
+            razorpayClient = new RazorpayClient(apiKey, apiSecret);
+        }
+        return razorpayClient;
+    }
+
     public String createOrder(double amount,
                                String currency,
                                String orderId) throws RazorpayException {
-        RazorpayClient razorpayClient = new RazorpayClient(apiKey, apiSecret);
-
         JSONObject orderReq = new JSONObject();
 
-        orderReq.put("amount", amount*100);
+        // Razorpay expects the amount in paise as an integer
+        orderReq.put("amount", Math.round(amount * 100));
         orderReq.put("currency", currency);
         orderReq.put("receipt", orderId);
 
-        Order order = razorpayClient.orders.create(orderReq);
+        Order order = getClient().orders.create(orderReq);
         return order.toString();
     }
 

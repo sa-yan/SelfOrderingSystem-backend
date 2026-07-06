@@ -28,7 +28,7 @@ public class EmailService {
     private JavaMailSender javaMailSender;
     private OrderRepository orderRepository;
 
-    public void senBillMail(String orderId){
+    public void sendBillMail(String orderId){
         Optional<Order> orderOptional = orderRepository.findById(orderId);
         if(orderOptional.isEmpty()){
             throw new ResponseStatusException(
@@ -92,7 +92,7 @@ public class EmailService {
 
         // Date & Time
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm a");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
         String date = order.getOrderDate().format(dateFormatter);
         String time = order.getOrderDate().format(timeFormatter);
         Paragraph dateTime = new Paragraph("Date: " + date + "    Time: " + time + "\n", smallFont);

@@ -49,8 +49,8 @@ public class RazorPayController {
             );
         }
 
-        emailService.senBillMail(orderId);
         razorPayService.confirmPayment(orderId, razorpayPaymentId);
+        emailService.sendBillMail(orderId);
         return ResponseEntity.ok("Payment confirmed and Bill is sent to your email.");
     }
 

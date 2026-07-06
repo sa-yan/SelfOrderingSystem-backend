@@ -62,18 +62,20 @@ public class MenuController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMenuItem(@PathVariable String id, @RequestBody MenuItem requestedMenuItem){
-        if(menuService.updateMenuItem(id, requestedMenuItem)!=null){
-            return new ResponseEntity<>(menuService.updateMenuItem(id, requestedMenuItem), HttpStatus.OK);
+        MenuItem updatedItem = menuService.updateMenuItem(id, requestedMenuItem);
+        if(updatedItem != null){
+            return new ResponseEntity<>(updatedItem, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(new ErrorDto("This item does not exist", 404), HttpStatus.NOT_FOUND);
         }
     }
 
-    @PatchMapping("/{id}/avilability")
+    @PatchMapping({"/{id}/avilability", "/{id}/availability"})
     public ResponseEntity<?> updateAvailability(@PathVariable String id,
                                                        @RequestParam boolean availability){
-        if(menuService!=null){
-            return new ResponseEntity<>(menuService.updateAvailability(id, availability), HttpStatus.OK);
+        MenuItem updatedItem = menuService.updateAvailability(id, availability);
+        if(updatedItem != null){
+            return new ResponseEntity<>(updatedItem, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new ErrorDto("This item does not exist", 404), HttpStatus.NOT_FOUND);
         }
@@ -81,7 +83,7 @@ public class MenuController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMenuItem(@PathVariable String id) {
-        if (menuService.getMenuItemById(id) != null) {
+        if (!menuService.getMenuItemById(id).isEmpty()) {
             menuService.deleteMenuItem(id);
             return ResponseEntity.noContent().build();
         }

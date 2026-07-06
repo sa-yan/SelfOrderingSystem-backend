@@ -24,7 +24,6 @@ public class CloudinaryService {
                 "height", 500,           // Resize to max 500px height
                 "crop", "limit"          // Keep aspect ratio
         ));
-        System.out.println(data);
         return data;
     }
 }

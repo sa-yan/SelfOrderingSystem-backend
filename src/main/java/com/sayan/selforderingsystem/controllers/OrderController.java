@@ -5,7 +5,6 @@ import com.sayan.selforderingsystem.models.Order;
 import com.sayan.selforderingsystem.models.OrderStatus;
 import com.sayan.selforderingsystem.services.OrderService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order/")
-@Data
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class OrderController {
@@ -23,8 +21,9 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
-        if(orderService.createOrder(order)!=null){
-            return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
+        Order createdOrder = orderService.createOrder(order);
+        if(createdOrder != null){
+            return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -32,8 +31,9 @@ public class OrderController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getOrder(@PathVariable String id) {
-        if(orderService.getOrderById(id)!=null){
-            return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.CREATED);
+        Order order = orderService.getOrderById(id);
+        if(order != null){
+            return new ResponseEntity<>(order, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new ErrorDto("Order with this corresponding ID is not available!", 404),HttpStatus.NOT_FOUND);
         }

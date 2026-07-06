@@ -27,6 +27,8 @@ public class OrderService {
     private final EmailService emailService;
 
     public Order createOrder(Order order) {
+        // Never trust a client-supplied id: a matching id would overwrite an existing order
+        order.setId(null);
         List<OrderItem> allItems = new ArrayList<>();
         double totalAmount = 0;
         for(OrderItem item : order.getItems()){
@@ -58,6 +60,9 @@ public class OrderService {
         order.setOrderNumber(nextOrderNumber);
 
         order.setOrderStatus(OrderStatus.PLACED);
+        // Payment state is only set by the payment flow, never by the client request
+        order.setPaymentSuccessful(false);
+        order.setRazorpayPaymentId(null);
         order.setOrderDate(LocalDateTime.now());
         order.setTableNumber(order.getTableNumber());
         Order savedOrder = orderRepository.save(order);

@@ -29,7 +29,7 @@ public class MenuService {
         }
 
         Map data = cloudinaryService.upload(file);
-        String imageUrl = data.get("url").toString();
+        String imageUrl = data.get("secure_url").toString();
         menuItem.setPicUrl(imageUrl);
 
         return menuItemRepository.save(menuItem);
