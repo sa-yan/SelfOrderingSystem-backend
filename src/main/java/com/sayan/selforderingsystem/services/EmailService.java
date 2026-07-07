@@ -13,6 +13,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +29,8 @@ public class EmailService {
     private JavaMailSender javaMailSender;
     private OrderRepository orderRepository;
 
+    // Runs on a background thread so payment confirmation never waits on SMTP
+    @Async
     public void sendBillMail(String orderId){
         Optional<Order> orderOptional = orderRepository.findById(orderId);
         if(orderOptional.isEmpty()){
