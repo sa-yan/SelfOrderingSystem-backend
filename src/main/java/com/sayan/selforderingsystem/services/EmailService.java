@@ -8,7 +8,7 @@ import com.sayan.selforderingsystem.models.Order;
 import com.sayan.selforderingsystem.models.OrderItem;
 import com.sayan.selforderingsystem.repositories.OrderRepository;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,11 +23,19 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
-@AllArgsConstructor
 public class EmailService {
 
-    private JavaMailSender javaMailSender;
-    private OrderRepository orderRepository;
+    private final JavaMailSender javaMailSender;
+    private final OrderRepository orderRepository;
+
+    // "From" address for outgoing mail; must be a verified sender in the SMTP provider (Brevo)
+    @Value("${app.mail.from}")
+    private String fromAddress;
+
+    public EmailService(JavaMailSender javaMailSender, OrderRepository orderRepository) {
+        this.javaMailSender = javaMailSender;
+        this.orderRepository = orderRepository;
+    }
 
     // Runs on a background thread so payment confirmation never waits on SMTP
     @Async
@@ -59,6 +67,7 @@ public class EmailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
 
+            mimeMessageHelper.setFrom(fromAddress);
             mimeMessageHelper.setTo(order.getEmail());
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(htmlBody, true);
